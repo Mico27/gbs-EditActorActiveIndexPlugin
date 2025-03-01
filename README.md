@@ -9,3 +9,5 @@ Setting it to the current amount of active actor or more will put it at the end 
 
 In this example, we get the active index of an actor and assign it to the player, this makes it so that the player actor will be inserted before the actor in the active list, which will make the player render behind that actor
 ![image](https://github.com/user-attachments/assets/5a426393-584e-4f23-b652-16cc829d96bb)
+
+NOTE: This plugin is only usable for color games, on the DMG, OAM order does not affect sprite render order.
