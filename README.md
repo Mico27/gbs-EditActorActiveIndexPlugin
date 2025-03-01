@@ -11,3 +11,8 @@ In this example, we get the active index of an actor and assign it to the player
 ![image](https://github.com/user-attachments/assets/5a426393-584e-4f23-b652-16cc829d96bb)
 
 NOTE: This plugin is only usable for color games, on the DMG, OAM order does not affect sprite render order.
+
+Example of displaying a walking on grass effect over a player actor
+
+https://github.com/user-attachments/assets/646fd337-f69d-41b3-a1ad-e2ace08a900f
+
