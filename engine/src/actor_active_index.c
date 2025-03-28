@@ -61,3 +61,53 @@ void get_actor_active_index(SCRIPT_CTX * THIS) OLDCALL BANKED {
 		script_memory[*(int16_t*)VM_REF_TO_PTR(FN_ARG1)] = active_idx;
 	}
 }
+
+void sort_actors_by_ypos(SCRIPT_CTX * THIS) OLDCALL BANKED {
+	THIS;	
+	if (!actors_active_head) return;
+    actor_t* actor_a = NULL;	
+    actor_t* actor_b = actors_active_head;
+	actor_t* temp_actor_a;
+	actor_t* temp_next;
+    // Traverse the list to sort each element
+    while (actor_b) {      
+        // Store the next node to process
+        temp_next = actor_b->next;
+        // Insert `actor_b` into the actor_a part
+        if (!actor_a || actor_a->pos.y >= actor_b->pos.y) {
+            actor_b->next = actor_a;
+            // If actor_a is not empty, set its `prev`
+            if (actor_a){
+				actor_a->prev = actor_b;
+			}
+            // Update actor_a to the new head
+            actor_a = actor_b;
+            actor_a->prev = NULL;
+        } else {          
+            // Pointer to traverse the actor_a part
+            temp_actor_a = actor_a;
+            // Find the correct position to insert
+            while (temp_actor_a->next && temp_actor_a->next->pos.y <= actor_b->pos.y) {
+                temp_actor_a = temp_actor_a->next;
+            }
+            // Insert `actor_b` after `temp_actor_a`
+            actor_b->next = temp_actor_a->next;
+            // Set `prev` if `actor_b` is not inserted 
+            // at the end
+            if (temp_actor_a->next) {
+                temp_actor_a->next->prev = actor_b;
+			}
+
+            // Set `next` of `temp_actor_a` to `actor_b`
+            temp_actor_a->next = actor_b;
+            actor_b->prev = temp_actor_a;
+        }
+        // Move to the next node to be actor_a, if next is empty, set tail
+		if (!temp_next){
+			actors_active_tail = actor_b;
+		}
+        actor_b = temp_next;
+    }
+	//set the finalized actor_a to head
+    actors_active_head = actor_a;
+}
