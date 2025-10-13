@@ -1,6 +1,8 @@
 # gbs-EditActorActiveIndexPlugin
  GBStudio plugin that allows editing the order of the actor in the active actor list used for rendering and OAM order
 
+ Note: The plugin and example project are updated for upcoming version 4.2 (latest dev build) will no longer work with 4.1
+
 This plugin contains 3 events: Get actor active index, Set actor active index and Sort actors verticaly
 
 Setting an actor active index will activate the actor if it was deactivated and will reposition the actor in the active actor list at the index specified.
