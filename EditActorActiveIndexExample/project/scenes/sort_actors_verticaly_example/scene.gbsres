@@ -1,0 +1,44 @@
+{
+  "_resourceType": "scene",
+  "id": "1f1197b9-987e-4d89-9594-3c15acaa5b43",
+  "_index": 0,
+  "name": "Sort actors verticaly example",
+  "backgroundId": "1e5f9d6a-bdbc-43e6-8c34-22f5bb5dea05",
+  "tilesetId": "",
+  "width": 20,
+  "height": 18,
+  "type": "TOPDOWN",
+  "colorModeOverride": "none",
+  "paletteIds": [],
+  "spritePaletteIds": [],
+  "collisions": "",
+  "autoFadeSpeed": 1,
+  "symbol": "scene_1",
+  "x": 104,
+  "y": 168,
+  "script": [
+    {
+      "command": "EVENT_SET_TIMER_SCRIPT",
+      "args": {
+        "timer": 1,
+        "duration": 0.5,
+        "frames": 16,
+        "__scriptTabs": "end",
+        "units": "frames"
+      },
+      "children": {
+        "script": [
+          {
+            "command": "EVENT_SORT_ACTORS_VERTICALY",
+            "args": {},
+            "id": "b0c61610-7dd6-48f5-b410-cdde7beb5ac4"
+          }
+        ]
+      },
+      "id": "f66ffdb2-9ddd-4b26-90d1-d01d3942e5b2"
+    }
+  ],
+  "playerHit1Script": [],
+  "playerHit2Script": [],
+  "playerHit3Script": []
+}

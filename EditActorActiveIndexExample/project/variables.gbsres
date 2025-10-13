@@ -1,0 +1,11 @@
+{
+  "_resourceType": "variables",
+  "variables": [
+    {
+      "id": "0",
+      "name": "ActorActiveIndex",
+      "symbol": "var_actoractiveindex"
+    }
+  ],
+  "constants": []
+}
