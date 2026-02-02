@@ -20,7 +20,8 @@
     {
       "command": "EVENT_GROUP",
       "args": {
-        "__label": "Move up"
+        "__label": "Move up",
+        "__comment": false
       },
       "children": {
         "true": [

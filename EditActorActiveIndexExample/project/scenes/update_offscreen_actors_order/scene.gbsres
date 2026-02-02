@@ -1,0 +1,23 @@
+{
+  "_resourceType": "scene",
+  "id": "069332a9-e83b-4d66-8e85-5f42994b5b70",
+  "_index": 2,
+  "name": "Update offscreen actors  order",
+  "backgroundId": "210840d8-32ff-41cb-8986-9585d6df9185",
+  "tilesetId": "",
+  "width": 255,
+  "height": 18,
+  "type": "SHMUP",
+  "colorModeOverride": "none",
+  "paletteIds": [],
+  "spritePaletteIds": [],
+  "collisions": "0011ee+",
+  "autoFadeSpeed": 1,
+  "symbol": "scene_3",
+  "x": 104,
+  "y": 352,
+  "script": [],
+  "playerHit1Script": [],
+  "playerHit2Script": [],
+  "playerHit3Script": []
+}
