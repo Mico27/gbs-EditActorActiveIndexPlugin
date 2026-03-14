@@ -18,24 +18,11 @@
   "y": 168,
   "script": [
     {
-      "command": "EVENT_SET_TIMER_SCRIPT",
+      "command": "EVENT_SET_ACTOR_SORT_MODE",
       "args": {
-        "timer": 1,
-        "duration": 0.5,
-        "frames": 16,
-        "__scriptTabs": "end",
-        "units": "frames"
+        "sort_mode": 2
       },
-      "children": {
-        "script": [
-          {
-            "command": "EVENT_SORT_ACTORS_VERTICALY",
-            "args": {},
-            "id": "b0c61610-7dd6-48f5-b410-cdde7beb5ac4"
-          }
-        ]
-      },
-      "id": "f66ffdb2-9ddd-4b26-90d1-d01d3942e5b2"
+      "id": "d15dfea6-74dd-4e22-acb7-a4a99cf5d8f0"
     }
   ],
   "playerHit1Script": [],

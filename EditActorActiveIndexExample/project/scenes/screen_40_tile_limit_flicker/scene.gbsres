@@ -1,0 +1,101 @@
+{
+  "_resourceType": "scene",
+  "id": "491bba83-af27-4956-87d2-49bd75672b91",
+  "_index": 3,
+  "name": "screen 40 tile limit Flicker",
+  "backgroundId": "1e5f9d6a-bdbc-43e6-8c34-22f5bb5dea05",
+  "tilesetId": "",
+  "width": 20,
+  "height": 18,
+  "type": "TOPDOWN",
+  "colorModeOverride": "none",
+  "paletteIds": [],
+  "spritePaletteIds": [],
+  "collisions": "",
+  "autoFadeSpeed": 1,
+  "symbol": "scene_4",
+  "x": 664,
+  "y": 168,
+  "script": [
+    {
+      "command": "EVENT_SET_ACTOR_SORT_MODE",
+      "args": {
+        "sort_mode": 1
+      },
+      "id": "906abb45-d463-4ad2-a9e6-8cef89fe6701"
+    },
+    {
+      "command": "EVENT_SET_INPUT_SCRIPT",
+      "args": {
+        "input": [
+          "b",
+          "a"
+        ],
+        "override": true,
+        "__scriptTabs": "press"
+      },
+      "children": {
+        "true": [
+          {
+            "command": "EVENT_IF",
+            "args": {
+              "condition": {
+                "type": "not",
+                "value": {
+                  "type": "variable",
+                  "value": "0"
+                }
+              },
+              "__collapseElse": false
+            },
+            "children": {
+              "true": [
+                {
+                  "command": "EVENT_SET_VALUE",
+                  "args": {
+                    "variable": "0",
+                    "value": {
+                      "type": "true"
+                    }
+                  },
+                  "id": "14460a5c-d164-4908-89af-4ae28501ca46"
+                },
+                {
+                  "command": "EVENT_SET_ACTOR_SORT_MODE",
+                  "args": {
+                    "sort_mode": 0
+                  },
+                  "id": "0024b3bb-fd5d-4e0a-9552-1dc34551e5a2"
+                }
+              ],
+              "false": [
+                {
+                  "command": "EVENT_SET_VALUE",
+                  "args": {
+                    "variable": "0",
+                    "value": {
+                      "type": "false"
+                    }
+                  },
+                  "id": "be843b46-a5dc-4c70-9463-0ff689625396"
+                },
+                {
+                  "command": "EVENT_SET_ACTOR_SORT_MODE",
+                  "args": {
+                    "sort_mode": 1
+                  },
+                  "id": "817aa732-acd2-43e3-a980-a37cdd39bb79"
+                }
+              ]
+            },
+            "id": "9891a622-9841-4920-847f-6c5d34047942"
+          }
+        ]
+      },
+      "id": "bbebf915-5131-4a16-a71d-c472c83bde1f"
+    }
+  ],
+  "playerHit1Script": [],
+  "playerHit2Script": [],
+  "playerHit3Script": []
+}

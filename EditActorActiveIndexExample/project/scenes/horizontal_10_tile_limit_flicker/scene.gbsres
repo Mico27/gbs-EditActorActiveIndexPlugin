@@ -1,0 +1,101 @@
+{
+  "_resourceType": "scene",
+  "id": "16cbdf8a-e563-4414-be45-c195cb535060",
+  "_index": 2,
+  "name": "Horizontal 10 tile limit Flicker",
+  "backgroundId": "1e5f9d6a-bdbc-43e6-8c34-22f5bb5dea05",
+  "tilesetId": "",
+  "width": 20,
+  "height": 18,
+  "type": "TOPDOWN",
+  "colorModeOverride": "none",
+  "paletteIds": [],
+  "spritePaletteIds": [],
+  "collisions": "",
+  "autoFadeSpeed": 1,
+  "symbol": "scene_3",
+  "x": 480,
+  "y": 168,
+  "script": [
+    {
+      "command": "EVENT_SET_ACTOR_SORT_MODE",
+      "args": {
+        "sort_mode": 1
+      },
+      "id": "beb53b27-0e50-4227-917c-8c51659a51e9"
+    },
+    {
+      "command": "EVENT_SET_INPUT_SCRIPT",
+      "args": {
+        "input": [
+          "b",
+          "a"
+        ],
+        "override": true,
+        "__scriptTabs": "press"
+      },
+      "children": {
+        "true": [
+          {
+            "command": "EVENT_IF",
+            "args": {
+              "condition": {
+                "type": "not",
+                "value": {
+                  "type": "variable",
+                  "value": "0"
+                }
+              },
+              "__collapseElse": false
+            },
+            "children": {
+              "true": [
+                {
+                  "command": "EVENT_SET_VALUE",
+                  "args": {
+                    "variable": "0",
+                    "value": {
+                      "type": "true"
+                    }
+                  },
+                  "id": "f048926c-a387-4532-8446-89fe69dbd161"
+                },
+                {
+                  "command": "EVENT_SET_ACTOR_SORT_MODE",
+                  "args": {
+                    "sort_mode": 0
+                  },
+                  "id": "b56e2d35-b331-4882-891e-6866cbebc1e7"
+                }
+              ],
+              "false": [
+                {
+                  "command": "EVENT_SET_VALUE",
+                  "args": {
+                    "variable": "0",
+                    "value": {
+                      "type": "false"
+                    }
+                  },
+                  "id": "01466f0e-742c-42c3-8544-c5eae71a81fb"
+                },
+                {
+                  "command": "EVENT_SET_ACTOR_SORT_MODE",
+                  "args": {
+                    "sort_mode": 1
+                  },
+                  "id": "d782848d-1f23-4694-92a3-7ebb8f51ade6"
+                }
+              ]
+            },
+            "id": "c3a715ff-9736-459a-bbdb-fcf6d67b888d"
+          }
+        ]
+      },
+      "id": "e749c457-f526-43c1-9283-18db4b266a93"
+    }
+  ],
+  "playerHit1Script": [],
+  "playerHit2Script": [],
+  "playerHit3Script": []
+}
