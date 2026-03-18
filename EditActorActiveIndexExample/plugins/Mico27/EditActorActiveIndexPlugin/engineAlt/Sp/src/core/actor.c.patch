@@ -31,7 +31,7 @@ Index: src\core\actor.c
  
  UBYTE allocated_sprite_tiles;
  UBYTE allocated_hardware_sprites;
-+FASTUBYTE tmp_iterator_offset; 
++FASTUBYTE tmp_iterator_offset;
 +UBYTE actor_sort_mode;
  
  static void deactivate_actor_impl(actor_t *actor);
@@ -42,8 +42,8 @@ Index: src\core\actor.c
      actor_t *actor;
      static uint8_t screen_tile16_x, screen_tile16_y, screen_tile16_x_end, screen_tile16_y_end;
      static uint8_t actor_tile16_x, actor_tile16_y;
--    static uint8_t tmp_iterator; 
-+    static FASTUBYTE tmp_iterator; 
+-    static uint8_t tmp_iterator;
++    static FASTUBYTE tmp_iterator;
      static FASTUBYTE actor_flags;
  
      // Convert scroll pos to 16px tile coordinates
@@ -88,7 +88,7 @@ Index: src\core\actor.c
 -            );
 -        }
 -    }
--    
+-
 -    // Render all actors
 -    for (actor = PLAYER.prev; (actor); actor = actor->prev){
 +    // Render actors
@@ -96,7 +96,7 @@ Index: src\core\actor.c
          if (CHK_FLAG(actor->flags, ACTOR_FLAG_HIDDEN | ACTOR_FLAG_DISABLED)) {
             continue;
          }
-         
+ 
 @@ -251,8 +234,52 @@
              screen_y
          );
@@ -111,7 +111,7 @@ Index: src\core\actor.c
 +#ifdef EXCLUDE_PLAYER_FROM_FLICKER
 +            actor = &PLAYER;
 +            if (actor != actors_active_head){
-+                actor = actor->prev;            
++                actor = actor->prev;
 +                if (actor != actors_active_head){
 +                    actor->next = actors_active_head;
 +                    actors_active_head->prev = actor;
@@ -123,8 +123,8 @@ Index: src\core\actor.c
 +                }
 +            }
 +#else
-+    
-+            actor = actors_active_tail;        
++
++            actor = actors_active_tail;
 +            if (actor != actors_active_head){
 +                actor->next = actors_active_head;
 +                actors_active_head->prev = actor;
@@ -134,7 +134,7 @@ Index: src\core\actor.c
 +                actor->prev = 0;
 +                tmp_iterator_offset++;
 +            }
-+#endif            
++#endif
 +        break;
 +#endif
 +#ifdef ENABLE_SORTY_FEATURE

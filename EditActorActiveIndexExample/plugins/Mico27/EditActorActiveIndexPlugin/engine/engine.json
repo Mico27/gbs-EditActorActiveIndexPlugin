@@ -10,7 +10,7 @@
             "cType": "define",
             "defaultValue": 1,
             "isHeading": true
-		},
+        },
         {
             "key": "EXCLUDE_PLAYER_FROM_FLICKER",
             "label": "Exclude player actor from flicker",
@@ -25,7 +25,7 @@
                "truthy": true
              }
            ]
-		},
+        },
         {
             "key": "ENABLE_SORTY_FEATURE",
             "label": "Enable Feature: Vertical Sort",
@@ -35,6 +35,6 @@
             "cType": "define",
             "defaultValue": 1,
             "isHeading": true
-		}
+        }
     ]
 }

@@ -23,6 +23,6 @@ export const fields = [
 ];
 
 export const compile = (input, helpers) => {
-  const { _setConstMemUInt8 } = helpers;  
-  _setConstMemUInt8('actor_sort_mode', input.sort_mode);  
+  const { _setConstMemUInt8 } = helpers;
+  _setConstMemUInt8('actor_sort_mode', input.sort_mode);
 };
