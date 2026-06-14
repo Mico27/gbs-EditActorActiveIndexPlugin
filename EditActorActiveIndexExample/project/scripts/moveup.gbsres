@@ -1,0 +1,56 @@
+{
+  "_resourceType": "script",
+  "id": "13ac51ce-1f38-4170-8b93-9e2475a92abb",
+  "name": "MoveUp",
+  "description": "",
+  "variables": {
+    "V0": {
+      "id": "V0",
+      "name": "ActorActiveIndexParam",
+      "passByReference": true
+    }
+  },
+  "actors": {},
+  "symbol": "script_1",
+  "script": [
+    {
+      "command": "EVENT_GROUP",
+      "args": {
+        "__label": "Move up",
+        "__comment": false
+      },
+      "children": {
+        "true": [
+          {
+            "command": "EVENT_GET_ACTOR_ACTIVE_INDEX",
+            "args": {
+              "actorId": "player",
+              "variable": "V0"
+            },
+            "id": "de851c96-0660-40ad-9628-c25beb9ddfa0"
+          },
+          {
+            "command": "EVENT_SET_ACTOR_ACTIVE_INDEX",
+            "args": {
+              "actorId": "player",
+              "activeIdx": {
+                "type": "expression",
+                "value": "$V0$ + 1"
+              }
+            },
+            "id": "b7aefa28-41b9-4528-956c-25499b2044a8"
+          },
+          {
+            "command": "EVENT_GET_ACTOR_ACTIVE_INDEX",
+            "args": {
+              "actorId": "player",
+              "variable": "V0"
+            },
+            "id": "4af52269-08aa-47c2-9195-35a4ca2eaae8"
+          }
+        ]
+      },
+      "id": "65aa9a09-a649-41d3-b9de-4d95e481ca10"
+    }
+  ]
+}

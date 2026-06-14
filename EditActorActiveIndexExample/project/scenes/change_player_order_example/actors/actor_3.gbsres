@@ -18,43 +18,15 @@
   "symbol": "actor_7",
   "script": [
     {
-      "command": "EVENT_GROUP",
+      "command": "EVENT_CALL_CUSTOM_EVENT",
       "args": {
-        "__label": "Move up",
-        "__comment": false
+        "customEventId": "13ac51ce-1f38-4170-8b93-9e2475a92abb",
+        "$variable[V0]$": {
+          "type": "variable",
+          "value": "0"
+        }
       },
-      "children": {
-        "true": [
-          {
-            "command": "EVENT_GET_ACTOR_ACTIVE_INDEX",
-            "args": {
-              "actorId": "player",
-              "variable": "0"
-            },
-            "id": "3233a90d-ad35-46cb-a382-06d3a43764d3"
-          },
-          {
-            "command": "EVENT_SET_ACTOR_ACTIVE_INDEX",
-            "args": {
-              "actorId": "player",
-              "activeIdx": {
-                "type": "expression",
-                "value": "$00$ + 1"
-              }
-            },
-            "id": "0a9214fa-edf8-46bf-8bee-1de0885ee290"
-          },
-          {
-            "command": "EVENT_GET_ACTOR_ACTIVE_INDEX",
-            "args": {
-              "actorId": "player",
-              "variable": "0"
-            },
-            "id": "6440181f-cf17-465d-9041-139c0f134bfa"
-          }
-        ]
-      },
-      "id": "45f07def-fe0e-42ee-955c-4e9aacccc405"
+      "id": "21bb1c19-6dd7-44e8-99f8-9a96144b539a"
     }
   ],
   "startScript": [],
