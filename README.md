@@ -27,6 +27,7 @@ https://github.com/user-attachments/assets/1b4fded2-95ee-4c1a-ab5a-b3616659223c
 5. [Engine Fields and Settings](#engine-fields-and-settings)
 6. [Events Reference](#events-reference)
 7. [Inner Workings](#inner-workings)
+8. [Memory Footprint](#memory-footprint)
 
 ---
 
@@ -302,3 +303,18 @@ After the sort, actors with **smaller Y** (higher on screen) are at the **head**
 
 The `switch` statement at the end of `actors_render` reads this variable every frame and executes the appropriate path. Both the `FLICKER` and `YSORT` cases are wrapped in `#ifdef` guards so they compile away entirely when the corresponding engine feature is disabled.
 
+
+---
+
+## Memory Footprint
+
+Measured against the stock GB Studio **4.3.0-e1** engine (per-file SDCC compile with GB Studio's build flags, default engine settings). Values are the plugin's *delta* versus the stock engine; DMG build, with CGB noted where it differs. ROM cost lands in banked ROM (GB Studio's autobanker spreads it across switchable banks); using the plugin's events additionally compiles a few bytes of GBVM script per call into your project's script banks.
+
+| | Cost |
+|---|---|
+| WRAM | +8 bytes |
+| ROM | +1,162 bytes |
+
+- **WRAM:** 8 bytes of bookkeeping in `actor_active_index.c`.
+- **Engine WRAM headroom:** the stock GB Studio 4.3.0 engine leaves about **854 bytes** of WRAM free (usable engine WRAM is 7,776 bytes at 0xC0A0–0xDF00; the stock engine uses 6,922 bytes). With this plugin installed roughly **846 bytes** remain. This figure does not depend on how many global variables your project defines: the script memory array has a fixed size of VM_HEAP_SIZE + (VM_MAX_CONTEXTS × VM_CONTEXT_STACK_SIZE) words — 768 + 16 × 64 = 1,792 words (3,584 bytes) with stock engine settings.
+- **SRAM:** not used.
