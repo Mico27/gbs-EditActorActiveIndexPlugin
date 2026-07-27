@@ -165,6 +165,20 @@ Reads the current position of an actor in the active actor list and stores it in
 
 ---
 
+### Get Actor Active Index By Index
+
+**Event ID:** `EVENT_GET_ACTOR_ACTIVE_INDEX_BY_INDEX`  
+**Group:** Actor
+
+Same as **Get Actor Active Index**, but the target actor is given as a raw actor index (script value) instead of an actor picker — for addressing actors dynamically (e.g. pool actors).
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| Actor Index | Value expression | 0 | Index of the actor whose active list position to read. |
+| Variable | Variable | Last variable | Receives the active index (0 = head). Only written if the actor is currently active. |
+
+---
+
 ### Set Actor Active Index
 
 **Event ID:** `EVENT_SET_ACTOR_ACTIVE_INDEX`  
@@ -175,6 +189,20 @@ Repositions an actor within the active actor list at a given index. If the index
 | Field | Type | Default | Description |
 |---|---|---|---|
 | Actor | Actor picker | Self | The actor to reposition. Must currently be active. |
+| Active index | Value expression | 0 | Target position in the active list. 0 = head (behind all), large value = tail (in front of all). |
+
+---
+
+### Set Actor Active Index By Index
+
+**Event ID:** `EVENT_SET_ACTOR_ACTIVE_INDEX_BY_INDEX`  
+**Group:** Actor
+
+Same as **Set Actor Active Index**, but the actor to reposition is given as a raw actor index (script value) instead of an actor picker — for addressing actors dynamically (e.g. pool actors).
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| Actor Index | Value expression | 0 | Index of the actor to reposition. Must currently be active. |
 | Active index | Value expression | 0 | Target position in the active list. 0 = head (behind all), large value = tail (in front of all). |
 
 ---
