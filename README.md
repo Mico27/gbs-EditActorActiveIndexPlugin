@@ -22,12 +22,10 @@ https://github.com/user-attachments/assets/1b4fded2-95ee-4c1a-ab5a-b3616659223c
 
 1. [Concepts](#concepts)
 2. [Project Setup](#project-setup)
-3. [How to Use](#how-to-use)
-4. [Technicalities and Restrictions](#technicalities-and-restrictions)
-5. [Engine Fields and Settings](#engine-fields-and-settings)
-6. [Events Reference](#events-reference)
-7. [Inner Workings](#inner-workings)
-8. [Memory Footprint](#memory-footprint)
+3. [Size Limits and Restrictions](#size-limits-and-restrictions)
+4. [Engine Settings](#engine-settings)
+5. [Events Reference](#events-reference)
+6. [Memory Footprint](#memory-footprint)
 
 ---
 
@@ -35,7 +33,7 @@ https://github.com/user-attachments/assets/1b4fded2-95ee-4c1a-ab5a-b3616659223c
 
 ### The Active Actor Linked List
 
-GB Studio manages actors as a doubly-linked list of active actors (`actors_active_head` → … → `actors_active_tail`). Each frame, `actors_render` iterates this list **tail-to-head** and calls `move_metasprite` for each actor, assigning OAM hardware sprite slots in order. Actors encountered first (near the tail) receive the lowest OAM indices; actors near the head receive the highest.
+GB Studio keeps its active actors in an ordered list. Each frame the engine walks that list from the **tail to the head**, assigning OAM hardware sprite slots as it goes. Actors encountered first (near the tail) receive the lowest OAM indices; actors near the head receive the highest.
 
 On CGB hardware, a lower OAM index means the sprite is drawn **on top** when two sprites overlap on the same pixel. Therefore:
 
@@ -57,11 +55,11 @@ In many top-down games, actors that are lower on the screen (higher Y position) 
 ## Project Setup
 
 1. Copy the plugin folder into your GB Studio project's `plugins/` directory.
-2. Configure the engine settings (see [Engine Fields and Settings](#engine-fields-and-settings)) to enable or disable the Flicker and Y-Sort features as needed.
+2. Configure the engine settings (see [Engine Settings](#engine-settings)) to enable or disable the Flicker and Y-Sort features as needed.
 
 ---
 
-## How to Use
+### How to Use
 
 ### Controlling Render Order with Active Index
 
@@ -78,11 +76,11 @@ Use **Set actor active index** to control where in the rendering order a specifi
 
 ### Automatic Sort Mode
 
-Use **Set actor sort mode** to switch the mode that runs every frame at the end of `actors_render`:
+Use **Set actor sort mode** to switch the mode that runs at the end of every frame:
 
 - **None (0)** — no automatic sorting. Manual index manipulation is preserved.
 - **Flicker (1)** — rotates the actor at the tail to the head each frame. Distributes OAM priority clipping over time.
-- **Sort Vertically (2)** — runs `sort_actors_by_ypos` every 8 frames. Actors lower on screen render on top.
+- **Sort Vertically (2)** — re-sorts by Y position every 8 frames. Actors lower on screen render on top.
 
 ### Manual One-Shot Y Sort
 
@@ -90,7 +88,7 @@ Use **Sort actors vertically** to trigger a single Y-sort without enabling the a
 
 ---
 
-## Technicalities and Restrictions
+## Size Limits and Restrictions
 
 ### CGB Only for Visual Render-Order Effects
 
@@ -98,54 +96,35 @@ On DMG, sprite rendering order is determined by OAM index and X position simulta
 
 ### Set Actor Active Index Only Works on Active Actors
 
-If the target actor is currently inactive (not on screen or explicitly deactivated), `set_actor_active_index` does nothing. The actor must be active for the repositioning to take effect.
+If the target actor is currently inactive — off screen, or explicitly deactivated — the event does nothing. The actor must be active for the repositioning to take effect.
 
 ### Get Actor Active Index Only Works on Active Actors
 
-If the target actor is inactive, `get_actor_active_index` does not write to the output variable. The variable retains its previous value.
+If the target actor is inactive, the event does not write to the output variable, which keeps its previous value.
 
 ### Y-Sort Runs Every 8 Frames
 
-When sort mode is **Sort Vertically**, `sort_actors_by_ypos` is called only when `game_time & 0x07 == 0` (i.e. every 8 frames). This reduces CPU cost at the expense of a maximum 8-frame delay before sort order catches up to position changes.
+When sort mode is **Sort Vertically**, the sort runs only once every 8 frames. This reduces CPU cost at the expense of a maximum 8-frame delay before sort order catches up to position changes.
 
-### Flicker Changes `tmp_iterator_offset`
+### Flicker Shares the Engine Frame Counter
 
-Flicker mode increments `tmp_iterator_offset` each frame. This variable is also used by `actors_update` to spread actor visibility checks across frames. The interaction is intentional — it ensures that different actors are on-screen-checked on different frames, distributing CPU load.
+Flicker mode advances the same per-frame counter the engine uses to spread actor visibility checks across frames. The interaction is intentional: it keeps different actors being checked on different frames, distributing CPU load.
 
 ### Modified Engine File
 
-The plugin replaces `engine/src/core/actor.c` to add the `actor_sort_mode` variable, the sort mode switch in `actors_render`, and the `actor_active_index.h` include.
+The plugin replaces the stock actor rendering file to add the sort-mode switch. Another plugin that patches the same file needs a merged build or a matching compatibility variant.
 
 ---
 
-## Engine Fields and Settings
+## Engine Settings
 
 These settings appear in GB Studio under **Settings → Engine → Change Actor Render Order**.
 
-### Enable Feature: Flicker
-
-**Key:** `ENABLE_FLICKER_FEATURE`  
-**Type:** Checkbox  
-**Default:** Enabled
-
-When checked, the flicker code path is compiled into the engine. When unchecked, all flicker-related code is removed at compile time via `#ifdef`. Disable this if you are not using flicker to save ROM space.
-
-### Exclude Player Actor from Flicker
-
-**Key:** `EXCLUDE_PLAYER_FROM_FLICKER`  
-**Type:** Checkbox  
-**Default:** Disabled  
-**Condition:** Only visible when **Enable Feature: Flicker** is checked.
-
-When checked, the flicker rotation skips the player actor — the player always stays at its current list position and is never rotated to the head. This prevents the player sprite from flickering when many actors are on screen. Other actors still rotate normally.
-
-### Enable Feature: Vertical Sort
-
-**Key:** `ENABLE_SORTY_FEATURE`  
-**Type:** Checkbox  
-**Default:** Enabled
-
-When checked, the vertical sort code path is compiled in. When unchecked, `sort_actors_by_ypos` and the Y-sort branch are removed at compile time. Disable this if you are not using Y-sort to save ROM space.
+| Setting | Default | Description |
+|---|---|---|
+| **Enable Feature: Flicker** | Enabled | Compiles the flicker code into the engine. Turn it off to save ROM if you do not use flicker. |
+| **Exclude Player Actor from Flicker** | Disabled | Skips the player in the flicker rotation, so the player sprite never flickers when many actors are on screen. Other actors still rotate normally. Only shown while Flicker is enabled. |
+| **Enable Feature: Vertical Sort** | Enabled | Compiles the vertical sort code into the engine. Turn it off to save ROM if you do not use Y-sort. |
 
 ---
 
@@ -229,111 +208,6 @@ Sets the global automatic sort mode that runs at the end of every `actors_render
 
 ---
 
-## Inner Workings
-
-### Active Actor Linked List Direction
-
-```
-actors_active_head ←→ actor ←→ actor ←→ … ←→ actors_active_tail
-       index 0                                     index N
-   (behind others)                              (in front)
-```
-
-`actors_render` iterates from `actors_active_tail` toward `actors_active_head`, so the tail actor occupies OAM slot 0 (highest CGB priority). The head actor gets the highest OAM slot number (rendered behind when overlapping).
-
-### `set_actor_active_index`
-
-The function first removes the actor from its current list position using `DL_REMOVE_ITEM`, updates the tail pointer if needed, then walks the list from the head to find the insertion point at the requested index:
-
-```c
-actor_t * target_actor = actors_active_head;
-while (active_idx && target_actor->next) {
-    active_idx--;
-    target_actor = target_actor->next;
-}
-if (active_idx) {           // walked past the end → insert at tail
-    target_actor->next = actor;
-    actor->prev = target_actor;
-    actor->next = 0;
-    actors_active_tail = actor;
-} else if (target_actor->prev) {  // insert in the middle
-    actor->prev = target_actor->prev;
-    target_actor->prev->next = actor;
-    actor->next = target_actor;
-    target_actor->prev = actor;
-} else {                    // insert at head
-    actor->prev = 0;
-    actors_active_head = actor;
-    actor->next = target_actor;
-    target_actor->prev = actor;
-}
-```
-
-The loop counts down `active_idx` while advancing through the list. If the index runs out before reaching the end, the actor is inserted just before the current `target_actor`. If the counter is still non-zero when `target_actor->next` is null, the requested index was past the end and the actor is appended at the tail.
-
-### `get_actor_active_index`
-
-Walks from `actors_active_head`, counting steps until it finds the target actor, then writes the count to `script_memory`:
-
-```c
-actor_t * target_actor = actors_active_head;
-UBYTE active_idx = 0;
-while (target_actor) {
-    if (target_actor == actor) break;
-    active_idx++;
-    target_actor = target_actor->next;
-}
-script_memory[*(int16_t*)VM_REF_TO_PTR(FN_ARG1)] = active_idx;
-```
-
-### Flicker Mode in `actors_render`
-
-Without `EXCLUDE_PLAYER_FROM_FLICKER`, the tail actor is moved to the head after rendering:
-
-```c
-actor = actors_active_tail;
-if (actor != actors_active_head) {
-    actor->next = actors_active_head;
-    actors_active_head->prev = actor;
-    actors_active_head = actor;
-    actor->prev->next = 0;
-    actors_active_tail = actor->prev;
-    actor->prev = 0;
-    tmp_iterator_offset++;
-}
-```
-
-Each frame, the actor that was rendered first (on top) is moved to the back of the list, so a different actor gets the "on top" position. Over enough frames every actor gets equal access to the low OAM indices.
-
-With `EXCLUDE_PLAYER_FROM_FLICKER`, the player is explicitly skipped: the actor just before the player in the list is moved to the head instead.
-
-### Y-Sort: Insertion Sort on the Linked List
-
-`sort_actors_by_ypos` performs an in-place insertion sort on the active linked list without allocating any extra memory. It maintains a sorted sub-list (`actor_a`) and inserts each node from the unsorted remainder (`actor_b`) into the correct position:
-
-```
-For each actor_b in the unsorted part:
-  Walk actor_a to find the first node with pos.y > actor_b->pos.y
-  Insert actor_b before that node (or at the tail if none found)
-```
-
-After the sort, actors with **smaller Y** (higher on screen) are at the **head** (rendered behind) and actors with **larger Y** (lower on screen) are at the **tail** (rendered in front). The sort runs every 8 frames (`IS_FRAME_8`).
-
-### `actor_sort_mode` Variable
-
-`actor_sort_mode` is a `UBYTE` defined in `actor.c` and directly written by the **Set actor sort mode** event via `_setConstMemUInt8('actor_sort_mode', value)`. The three `#define` constants map modes to integer values:
-
-```c
-#define ACTOR_SORT_MODE_NONE    0
-#define ACTOR_SORT_MODE_FLICKER 1
-#define ACTOR_SORT_MODE_YSORT   2
-```
-
-The `switch` statement at the end of `actors_render` reads this variable every frame and executes the appropriate path. Both the `FLICKER` and `YSORT` cases are wrapped in `#ifdef` guards so they compile away entirely when the corresponding engine feature is disabled.
-
-
----
-
 ## Memory Footprint
 
 Measured against the stock GB Studio **4.3.0-e1** engine (per-file SDCC compile with GB Studio's build flags, default engine settings). Values are the plugin's *delta* versus the stock engine; DMG build, with CGB noted where it differs. ROM cost lands in banked ROM (GB Studio's autobanker spreads it across switchable banks); using the plugin's events additionally compiles a few bytes of GBVM script per call into your project's script banks.
@@ -343,7 +217,7 @@ Measured against the stock GB Studio **4.3.0-e1** engine (per-file SDCC compile 
 | WRAM | +8 bytes |
 | ROM | +1,162 bytes |
 
-- **WRAM:** 8 bytes of bookkeeping in `actor_active_index.c`.
+- **WRAM:** 8 bytes of bookkeeping.
 - **Engine WRAM headroom:** the stock GB Studio 4.3.0 engine leaves about **854 bytes** of WRAM free (usable engine WRAM is 7,776 bytes at 0xC0A0–0xDF00; the stock engine uses 6,922 bytes). With this plugin installed roughly **846 bytes** remain. This figure does not depend on how many global variables your project defines: the script memory array has a fixed size of VM_HEAP_SIZE + (VM_MAX_CONTEXTS × VM_CONTEXT_STACK_SIZE) words — 768 + 16 × 64 = 1,792 words (3,584 bytes) with stock engine settings.
 - **SRAM:** not used.
 
