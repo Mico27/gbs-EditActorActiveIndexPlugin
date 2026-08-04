@@ -19,6 +19,7 @@
 #include "macro.h"
 #include "actor_active_index.h"
 #include "data/states_defines.h"
+#include "dynamic_actor.h"
 #include "continuous_scene.h"
 
 #ifdef STRICT
