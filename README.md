@@ -298,3 +298,34 @@ the core compiles, move it independently of this plugin.
 
 </details>
 <!-- BANK0:END -->
+
+## Changelog
+
+Grouped by the date each change was merged into the official
+[gb-studio-plugins](https://github.com/gb-studio-dev/gb-studio-plugins) repository.
+
+Only bug fixes, new features and feature changes are listed. Engine version
+bumps, patch regeneration, packaging fixes and documentation edits are omitted.
+
+### 2026-06-28
+
+- Added ContinuousScenePlugin compatibility.
+
+### 2026-06-14
+
+- Added custom script parameter / stack support to the events.
+
+### 2025-10-29
+
+- Fixed Y sorting.
+
+### 2025-08-07
+
+- Fixed a desynchronised `actors_active_tail` when actors are deactivated.
+
+### 2025-04-02
+
+- Initial release.
+- Added a "sort actors vertically" event.
+- Inactive actors are now ignored when setting an active index.
+- Fixed the actor overlapping functions.
