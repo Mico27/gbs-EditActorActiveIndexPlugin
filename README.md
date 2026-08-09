@@ -26,6 +26,8 @@ https://github.com/user-attachments/assets/1b4fded2-95ee-4c1a-ab5a-b3616659223c
 4. [Engine Settings](#engine-settings)
 5. [Events Reference](#events-reference)
 6. [Memory Footprint](#memory-footprint)
+7. [Bank 0 (HOME) Usage](#bank-0-home-usage)
+8. [Changelog](#changelog)
 
 ---
 
