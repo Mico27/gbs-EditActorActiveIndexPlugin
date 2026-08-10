@@ -83,6 +83,16 @@ void actors_init(void) BANKED {
     emote_actor             = NULL;
 
     memset(actors, 0, sizeof(actors));
+
+    // Cache each actor's own index in actors[]. The dynamic actor runtime holds
+    // pointers to actors but has to report their index; reading it back from the
+    // actor avoids deriving it with (actor - actors), which SDCC compiles to a
+    // __divsint call because sizeof(actor_t) is not a power of two.
+    UBYTE actor_i;
+    actor_t * actor_p = actors;
+    for (actor_i = 0; actor_i != MAX_ACTORS; ++actor_i, ++actor_p) {
+        actor_p->actor_index = actor_i;
+    }
 }
 
 void player_init(void) BANKED {
@@ -319,6 +329,7 @@ static void deactivate_actor_impl(actor_t *actor) {
     if ((actor->hscript_hit & SCRIPT_TERMINATED) == 0) {
         script_detach_hthread(actor->hscript_hit);
     }
+    DYNAMIC_ACTOR_ON_DEACTIVATE(actor);
 }
 
 void deactivate_actor(actor_t *actor) BANKED {
@@ -375,6 +386,7 @@ static void activate_actor_impl(actor_t *actor) {
         script_execute(actor->script_update.bank, actor->script_update.ptr, &(actor->hscript_update), 0);
     }
     actor->hscript_hit = SCRIPT_TERMINATED;
+    DYNAMIC_ACTOR_ON_ACTIVATE(actor);
 }
 
 void activate_actor(actor_t *actor) BANKED {
@@ -613,4 +625,3 @@ void actors_handle_player_collision(void) BANKED {
     }
     player_collision_actor = NULL;
 }
-

@@ -20,7 +20,6 @@
 #include "actor_active_index.h"
 #include "data/states_defines.h"
 #include "dynamic_actor.h"
-#include "scene_transition.h"
 
 #ifdef STRICT
     #include <gb/bgb_emu.h>
@@ -83,6 +82,16 @@ void actors_init(void) BANKED {
     emote_actor             = NULL;
 
     memset(actors, 0, sizeof(actors));
+
+    // Cache each actor's own index in actors[]. The dynamic actor runtime holds
+    // pointers to actors but has to report their index; reading it back from the
+    // actor avoids deriving it with (actor - actors), which SDCC compiles to a
+    // __divsint call because sizeof(actor_t) is not a power of two.
+    UBYTE actor_i;
+    actor_t * actor_p = actors;
+    for (actor_i = 0; actor_i != MAX_ACTORS; ++actor_i, ++actor_p) {
+        actor_p->actor_index = actor_i;
+    }
 }
 
 void player_init(void) BANKED {
@@ -127,7 +136,7 @@ void actors_update(void) BANKED {
             }
         }
 
-       if (actor == &PLAYER || CHK_FLAG(actor_flags, ACTOR_FLAG_PINNED)) {
+       if (CHK_FLAG(actor_flags, ACTOR_FLAG_PINNED)) {
             actor = actor->prev;
             continue;
         }
@@ -152,7 +161,7 @@ void actors_update(void) BANKED {
                 // Deactivate if offscreen
                 actor_t * prev = actor->prev;
                 if (!VM_ISLOCKED()) {
-                    if (CHK_FLAG(actor_flags, ACTOR_FLAG_PERSISTENT)) {
+                    if (actor == &PLAYER || CHK_FLAG(actor_flags, ACTOR_FLAG_PERSISTENT)) {
                         SET_FLAG(actor->flags, ACTOR_FLAG_DISABLED);
                     } else {
                         if (CHK_FLAG(actor_flags, ACTOR_FLAG_DISABLED)) {
@@ -319,6 +328,7 @@ static void deactivate_actor_impl(actor_t *actor) {
     if ((actor->hscript_hit & SCRIPT_TERMINATED) == 0) {
         script_detach_hthread(actor->hscript_hit);
     }
+    DYNAMIC_ACTOR_ON_DEACTIVATE(actor);
 }
 
 void deactivate_actor(actor_t *actor) BANKED {
@@ -341,7 +351,7 @@ static void activate_actor_impl(actor_t *actor) {
     if (CHK_FLAG(actor->flags, ACTOR_FLAG_ACTIVE | ACTOR_FLAG_DISABLED)) return;
 
     // Check if on screen before activating to avoid flash of offscreen actors
-    if (actor != &PLAYER && !CHK_FLAG(actor->flags, ACTOR_FLAG_PINNED)) {
+    if (!CHK_FLAG(actor->flags, ACTOR_FLAG_PINNED)) {
         UBYTE actor_tile16_x = SUBPX_TO_TILE16(actor->pos.x) + ACTOR_BOUNDS_TILE16_HALF + TILE16_OFFSET;
         UBYTE actor_tile16_y = SUBPX_TO_TILE16(actor->pos.y) + ACTOR_BOUNDS_TILE16_HALF + TILE16_OFFSET;
         UBYTE screen_tile16_x = PX_TO_TILE16(draw_scroll_x) + TILE16_OFFSET;
@@ -358,7 +368,7 @@ static void activate_actor_impl(actor_t *actor) {
             // Actor top edge > screen bottom edge
             (actor_tile16_y > screen_tile16_y_end)
         ) {
-            if (CHK_FLAG(actor->flags, ACTOR_FLAG_PERSISTENT)) {
+            if (actor == &PLAYER || CHK_FLAG(actor->flags, ACTOR_FLAG_PERSISTENT)) {
                 SET_FLAG(actor->flags, ACTOR_FLAG_DISABLED);
             } else {
                 return;
@@ -375,6 +385,7 @@ static void activate_actor_impl(actor_t *actor) {
         script_execute(actor->script_update.bank, actor->script_update.ptr, &(actor->hscript_update), 0);
     }
     actor->hscript_hit = SCRIPT_TERMINATED;
+    DYNAMIC_ACTOR_ON_ACTIVATE(actor);
 }
 
 void activate_actor(actor_t *actor) BANKED {
@@ -612,5 +623,4 @@ void actors_handle_player_collision(void) BANKED {
         player_iframes--;
     }
     player_collision_actor = NULL;
-    check_transition_to_scene_collision();
 }
