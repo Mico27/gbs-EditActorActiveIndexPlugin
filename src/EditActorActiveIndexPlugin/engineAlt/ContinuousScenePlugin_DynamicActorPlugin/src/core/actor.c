@@ -83,16 +83,6 @@ void actors_init(void) BANKED {
     emote_actor             = NULL;
 
     memset(actors, 0, sizeof(actors));
-
-    // Cache each actor's own index in actors[]. The dynamic actor runtime holds
-    // pointers to actors but has to report their index; reading it back from the
-    // actor avoids deriving it with (actor - actors), which SDCC compiles to a
-    // __divsint call because sizeof(actor_t) is not a power of two.
-    UBYTE actor_i;
-    actor_t * actor_p = actors;
-    for (actor_i = 0; actor_i != MAX_ACTORS; ++actor_i, ++actor_p) {
-        actor_p->actor_index = actor_i;
-    }
 }
 
 void player_init(void) BANKED {
