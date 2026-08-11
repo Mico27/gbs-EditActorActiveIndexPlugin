@@ -9,7 +9,7 @@ Index: src/core/actor.c
  #include "macro.h"
 +#include "actor_active_index.h"
 +#include "data/states_defines.h"
- #include "continuous_scene.h"
+ #include "scene_transition.h"
  
  #ifdef STRICT
      #include <gb/bgb_emu.h>
@@ -37,17 +37,7 @@ Index: src/core/actor.c
  static void deactivate_actor_impl(actor_t *actor);
  
  void actors_init(void) BANKED {
-@@ -71,8 +79,9 @@
-     player_moving           = FALSE;
-     player_iframes          = 0;
-     player_collision_actor  = NULL;
-     emote_actor             = NULL;
-+
-     memset(actors, 0, sizeof(actors));
- }
- 
- void player_init(void) BANKED {
-@@ -84,9 +93,9 @@
+@@ -85,9 +93,9 @@
  void actors_update(void) BANKED {
      actor_t *actor;
      static uint8_t screen_tile16_x, screen_tile16_y, screen_tile16_x_end, screen_tile16_y_end;
@@ -58,7 +48,7 @@ Index: src/core/actor.c
  
      // Convert scroll pos to 16px tile coordinates
      // allowing full range of scene to be represented in 7 bits
-@@ -96,9 +105,9 @@
+@@ -97,9 +105,9 @@
      screen_tile16_x_end = screen_tile16_x + ACTOR_BOUNDS_TILE16 + SCREEN_TILE16_W;
      screen_tile16_y = PX_TO_TILE16(draw_scroll_y) + TILE16_OFFSET;
      screen_tile16_y_end = screen_tile16_y + ACTOR_BOUNDS_TILE16 + SCREEN_TILE16_H;
@@ -69,7 +59,7 @@ Index: src/core/actor.c
      actor = actors_active_tail;
      while (actor) {
          actor_flags = actor->flags;
-@@ -116,9 +125,9 @@
+@@ -117,9 +125,9 @@
                  }
              }
          }
@@ -80,7 +70,7 @@ Index: src/core/actor.c
              continue;
          }
  
-@@ -226,8 +235,52 @@
+@@ -227,8 +235,52 @@
              screen_y
          );
      }
@@ -133,7 +123,7 @@ Index: src/core/actor.c
  }
  
  static void deactivate_actor_impl(actor_t *actor) {
-@@ -295,9 +348,9 @@
+@@ -296,9 +348,9 @@
              (actor_tile16_y < screen_tile16_y) ||
              // Actor top edge > screen bottom edge
              (actor_tile16_y > screen_tile16_y_end)
