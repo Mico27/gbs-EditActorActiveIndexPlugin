@@ -1,0 +1,8 @@
+{
+  "_resourceType": "project",
+  "name": "ALT_Cont_DynamicA",
+  "author": "micka",
+  "notes": "EditActorActiveIndexPlugin with ContinuousScenePlugin, DynamicActorPlugin — selects engineAlt/Cont_DynamicA.",
+  "_version": "4.2.0",
+  "_release": "10"
+}

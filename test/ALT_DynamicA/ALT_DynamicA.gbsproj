@@ -1,0 +1,8 @@
+{
+  "_resourceType": "project",
+  "name": "ALT_DynamicA",
+  "author": "micka",
+  "notes": "EditActorActiveIndexPlugin with DynamicActorPlugin — selects engineAlt/DynamicA.",
+  "_version": "4.2.0",
+  "_release": "10"
+}

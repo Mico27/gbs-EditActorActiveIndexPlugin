@@ -1,0 +1,8 @@
+{
+  "_resourceType": "project",
+  "name": "ALT_ScreenS_DynamicA",
+  "author": "micka",
+  "notes": "EditActorActiveIndexPlugin with ScreenScrollPlugin, DynamicActorPlugin — selects engineAlt/ScreenS_DynamicA.",
+  "_version": "4.2.0",
+  "_release": "10"
+}

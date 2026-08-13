@@ -1,0 +1,8 @@
+{
+  "_resourceType": "project",
+  "name": "ALT_Cont_Spr",
+  "author": "micka",
+  "notes": "EditActorActiveIndexPlugin with ContinuousScenePlugin, SpritesheetChangeBufferPlugin — selects engineAlt/Cont_Spr.",
+  "_version": "4.2.0",
+  "_release": "10"
+}

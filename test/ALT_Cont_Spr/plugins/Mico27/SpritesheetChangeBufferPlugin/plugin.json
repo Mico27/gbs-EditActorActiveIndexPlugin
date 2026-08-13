@@ -1,0 +1,927 @@
+{
+  "type": "enginePlugin",
+  "name": "Set actor spritesheet buffer plugin",
+  "author": "Mico27",
+  "url": "https://github.com/Mico27/gbs-SpritesheetChangeBufferPlugin",
+  "description": "Actors that uses the set actor spritesheet event have reserved space in the tileset VRAM. When using that event, the updating of the tileset might not happen on the same frame as the update of the tiles in the OAM, which can result in garbled tiles for a brief moment. This plugin create a buffer in the tileset VRAM to prevent the display of that visual glitch, this however means that the reserved space in the tileset VRAM will be doubled for that actor.",
+  "license": "MIT",
+  "version": "4.3.9",
+  "gbsVersion": ">=4.3.0",
+  "order": -4,
+  "engineAltRules": [
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin",
+          "Mico27/MetaTilePlugin",
+          "Mico27/SceneStackExPlugin",
+          "Mico27/DynamicActorPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_M_Sce_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin",
+          "MetaTilePlugin",
+          "SceneStackExPlugin",
+          "DynamicActorPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_M_Sce_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin",
+          "Mico27/MetaTilePlugin",
+          "Mico27/SceneStackExPlugin",
+          "Mico27/DynamicActorPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_M_Sce_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin",
+          "MetaTilePlugin",
+          "SceneStackExPlugin",
+          "DynamicActorPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_M_Sce_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin",
+          "Mico27/MetaTilePlugin",
+          "Mico27/DynamicActorPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_M_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin",
+          "MetaTilePlugin",
+          "DynamicActorPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_M_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin",
+          "Mico27/MetaTilePlugin",
+          "Mico27/SceneStackExPlugin",
+          "Mico27/DynamicActorPlugin"
+        ]
+      },
+      "use": "Cont_M_Sce_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin",
+          "MetaTilePlugin",
+          "SceneStackExPlugin",
+          "DynamicActorPlugin"
+        ]
+      },
+      "use": "Cont_M_Sce_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin",
+          "Mico27/MetaTilePlugin",
+          "Mico27/SceneStackExPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_M_Sce_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin",
+          "MetaTilePlugin",
+          "SceneStackExPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_M_Sce_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin",
+          "Mico27/SceneStackExPlugin",
+          "Mico27/DynamicActorPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_Sce_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin",
+          "SceneStackExPlugin",
+          "DynamicActorPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_Sce_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/MetaTilePlugin",
+          "Mico27/SceneStackExPlugin",
+          "Mico27/DynamicActorPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "M_Sce_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "MetaTilePlugin",
+          "SceneStackExPlugin",
+          "DynamicActorPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "M_Sce_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin",
+          "Mico27/MetaTilePlugin",
+          "Mico27/DynamicActorPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_M_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin",
+          "MetaTilePlugin",
+          "DynamicActorPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_M_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin",
+          "Mico27/MetaTilePlugin",
+          "Mico27/SceneStackExPlugin",
+          "Mico27/DynamicActorPlugin"
+        ]
+      },
+      "use": "ScreenS_M_Sce_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin",
+          "MetaTilePlugin",
+          "SceneStackExPlugin",
+          "DynamicActorPlugin"
+        ]
+      },
+      "use": "ScreenS_M_Sce_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin",
+          "Mico27/MetaTilePlugin",
+          "Mico27/SceneStackExPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_M_Sce_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin",
+          "MetaTilePlugin",
+          "SceneStackExPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_M_Sce_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin",
+          "Mico27/SceneStackExPlugin",
+          "Mico27/DynamicActorPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_Sce_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin",
+          "SceneStackExPlugin",
+          "DynamicActorPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_Sce_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin",
+          "Mico27/DynamicActorPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin",
+          "DynamicActorPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin",
+          "Mico27/MetaTilePlugin",
+          "Mico27/DynamicActorPlugin"
+        ]
+      },
+      "use": "Cont_M_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin",
+          "MetaTilePlugin",
+          "DynamicActorPlugin"
+        ]
+      },
+      "use": "Cont_M_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin",
+          "Mico27/MetaTilePlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_M_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin",
+          "MetaTilePlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_M_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin",
+          "Mico27/MetaTilePlugin",
+          "Mico27/SceneStackExPlugin"
+        ]
+      },
+      "use": "Cont_M_Sce"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin",
+          "MetaTilePlugin",
+          "SceneStackExPlugin"
+        ]
+      },
+      "use": "Cont_M_Sce"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin",
+          "Mico27/SceneStackExPlugin",
+          "Mico27/DynamicActorPlugin"
+        ]
+      },
+      "use": "Cont_Sce_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin",
+          "SceneStackExPlugin",
+          "DynamicActorPlugin"
+        ]
+      },
+      "use": "Cont_Sce_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin",
+          "Mico27/SceneStackExPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_Sce_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin",
+          "SceneStackExPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_Sce_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/MetaTilePlugin",
+          "Mico27/DynamicActorPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "M_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "MetaTilePlugin",
+          "DynamicActorPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "M_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/MetaTilePlugin",
+          "Mico27/SceneStackExPlugin",
+          "Mico27/DynamicActorPlugin"
+        ]
+      },
+      "use": "M_Sce_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "MetaTilePlugin",
+          "SceneStackExPlugin",
+          "DynamicActorPlugin"
+        ]
+      },
+      "use": "M_Sce_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/MetaTilePlugin",
+          "Mico27/SceneStackExPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "M_Sce_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "MetaTilePlugin",
+          "SceneStackExPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "M_Sce_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/SceneStackExPlugin",
+          "Mico27/DynamicActorPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "Sce_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "SceneStackExPlugin",
+          "DynamicActorPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "Sce_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin",
+          "Mico27/DynamicActorPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin",
+          "DynamicActorPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin",
+          "Mico27/MetaTilePlugin",
+          "Mico27/DynamicActorPlugin"
+        ]
+      },
+      "use": "ScreenS_M_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin",
+          "MetaTilePlugin",
+          "DynamicActorPlugin"
+        ]
+      },
+      "use": "ScreenS_M_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin",
+          "Mico27/MetaTilePlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_M_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin",
+          "MetaTilePlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_M_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin",
+          "Mico27/MetaTilePlugin",
+          "Mico27/SceneStackExPlugin"
+        ]
+      },
+      "use": "ScreenS_M_Sce"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin",
+          "MetaTilePlugin",
+          "SceneStackExPlugin"
+        ]
+      },
+      "use": "ScreenS_M_Sce"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin",
+          "Mico27/SceneStackExPlugin",
+          "Mico27/DynamicActorPlugin"
+        ]
+      },
+      "use": "ScreenS_Sce_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin",
+          "SceneStackExPlugin",
+          "DynamicActorPlugin"
+        ]
+      },
+      "use": "ScreenS_Sce_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin",
+          "Mico27/SceneStackExPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_Sce_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin",
+          "SceneStackExPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_Sce_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin",
+          "Mico27/DynamicActorPlugin"
+        ]
+      },
+      "use": "Cont_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin",
+          "DynamicActorPlugin"
+        ]
+      },
+      "use": "Cont_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "Cont_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin",
+          "Mico27/MetaTilePlugin"
+        ]
+      },
+      "use": "Cont_M"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin",
+          "MetaTilePlugin"
+        ]
+      },
+      "use": "Cont_M"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin",
+          "Mico27/SceneStackExPlugin"
+        ]
+      },
+      "use": "Cont_Sce"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin",
+          "SceneStackExPlugin"
+        ]
+      },
+      "use": "Cont_Sce"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/DynamicActorPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "DynamicActorPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "DynamicA_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/MetaTilePlugin",
+          "Mico27/DynamicActorPlugin"
+        ]
+      },
+      "use": "M_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "MetaTilePlugin",
+          "DynamicActorPlugin"
+        ]
+      },
+      "use": "M_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/MetaTilePlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "M_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "MetaTilePlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "M_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/MetaTilePlugin",
+          "Mico27/SceneStackExPlugin"
+        ]
+      },
+      "use": "M_Sce"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "MetaTilePlugin",
+          "SceneStackExPlugin"
+        ]
+      },
+      "use": "M_Sce"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/SceneStackExPlugin",
+          "Mico27/DynamicActorPlugin"
+        ]
+      },
+      "use": "Sce_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "SceneStackExPlugin",
+          "DynamicActorPlugin"
+        ]
+      },
+      "use": "Sce_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/SceneStackExPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "Sce_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "SceneStackExPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "Sce_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin",
+          "Mico27/DynamicActorPlugin"
+        ]
+      },
+      "use": "ScreenS_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin",
+          "DynamicActorPlugin"
+        ]
+      },
+      "use": "ScreenS_DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin",
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin",
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "ScreenS_F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin",
+          "Mico27/MetaTilePlugin"
+        ]
+      },
+      "use": "ScreenS_M"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin",
+          "MetaTilePlugin"
+        ]
+      },
+      "use": "ScreenS_M"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin",
+          "Mico27/SceneStackExPlugin"
+        ]
+      },
+      "use": "ScreenS_Sce"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin",
+          "SceneStackExPlugin"
+        ]
+      },
+      "use": "ScreenS_Sce"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ContinuousScenePlugin"
+        ]
+      },
+      "use": "Cont"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ContinuousScenePlugin"
+        ]
+      },
+      "use": "Cont"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/DynamicActorPlugin"
+        ]
+      },
+      "use": "DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "DynamicActorPlugin"
+        ]
+      },
+      "use": "DynamicA"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/FadeStreetPlugin"
+        ]
+      },
+      "use": "F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "FadeStreetPlugin"
+        ]
+      },
+      "use": "F"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/MetaTilePlugin"
+        ]
+      },
+      "use": "M"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "MetaTilePlugin"
+        ]
+      },
+      "use": "M"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/SceneStackExPlugin"
+        ]
+      },
+      "use": "Sce"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "SceneStackExPlugin"
+        ]
+      },
+      "use": "Sce"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "Mico27/ScreenScrollPlugin"
+        ]
+      },
+      "use": "ScreenS"
+    },
+    {
+      "when": {
+        "additionalPlugins": [
+          "ScreenScrollPlugin"
+        ]
+      },
+      "use": "ScreenS"
+    }
+  ]
+}
